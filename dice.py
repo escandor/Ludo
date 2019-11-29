@@ -6,8 +6,7 @@ class Dice:
         self.coOrdinates = None
 
     def rollDice(self):
-        value = random.randint(1,3)
-        #value = 3
+        value = random.randint(1,6)
         # self.setdiceValue()
         return value
 
