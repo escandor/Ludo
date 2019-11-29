@@ -147,7 +147,7 @@ class Game:
 
     def checkIfBlocked(self, tile):
         if tile.blockedBy != None and self.currentPlayer != tile.blockedBy:
-            print("Choose another token, this tile is blocked by: {}".format(tile.blockedBy.playerName))
+            #print("Choose another token, this tile is blocked by: {}".format(tile.blockedBy.playerName))
             return True
         return False
 
@@ -160,7 +160,7 @@ class Game:
         if len(tile.residents) == 2 and self.currentPlayer != tile.residents[0].playerOwner:
             eatenToken = tile.residents[0]
             if tile.tileType == "safe":
-                print("{}'s token is safe".format(eatenToken.playerOwner.playerName))
+                #print("{}'s token is safe".format(eatenToken.playerOwner.playerName))
                 return
             else:
                 print("{}'s token eats {}'s token".format(self.currentPlayer.playerName, eatenToken.playerOwner.playerName))
@@ -183,7 +183,7 @@ class Game:
         first = True
         while not self.gameExit:
             
-            self.currentPlayer = self.players[counter%2]
+            self.currentPlayer = self.players[counter%4]
 
             first = self.highlightPlayerTurn(first)
             # return here
