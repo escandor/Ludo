@@ -135,14 +135,14 @@ class Game:
                     self.endGame()
                 if event.type == pygame.MOUSEBUTTONUP:
                     x,y = pygame.mouse.get_pos()
-                    print(x,y)
+                    #print(x,y)
                     currentToken = self.isPlayerChoosingOwnToken(x,y)
                     if currentToken != None:
                         validToken = True
                         #print("success")
                     else:
-                        print(currentToken.currentTilePathPosition)
                         print("Not valid token")
+                        #print(currentToken.currentTilePathPosition)
         return currentToken
 
     def checkIfBlocked(self, tile):
@@ -163,13 +163,12 @@ class Game:
                 return
             else:
                 print("{}'s token eats {}'s token".format(self.currentPlayer.playerName, eatenToken.playerOwner.playerName))
-                # ???
-                # tile.residents.remove(eatenToken)
-                # eatenToken.playerOwner.tokensOnBase.append(eatenToken)
-                # eatenToken.playerOwner.tokensOnPath.remove(eatenToken)
-                # eatenToken.setCurrentTilePathPosition(0)
-                # eatenToken.setTokenLocation((eatenToken.xBaseCoord, eatenToken.yBaseCoord))
-                # eatenToken.drawToken(self.board)
+                tile.residents.remove(eatenToken)
+                eatenToken.playerOwner.tokensOnBase.append(eatenToken)
+                eatenToken.playerOwner.tokensOnPath.remove(eatenToken)
+                eatenToken.setCurrentTilePathPosition(0)
+                eatenToken.setTokenLocation((range(eatenToken.xBaseCoord, eatenToken.xBaseCoord+61), range(eatenToken.yBaseCoord, eatenToken.yBaseCoord+61)))
+                eatenToken.drawToken(self.board)
 
     def adjustTokenLocations(self, newTokenTilePosition, currentToken):
         if newTokenTilePosition.tileType == 'path' or newTokenTilePosition.tileType == 'safe':
@@ -218,7 +217,7 @@ class Game:
         first = True
         while not self.gameExit:
             
-            self.currentPlayer = self.players[counter%2]
+            self.currentPlayer = self.players[counter%4]
             print("Turn #{}: {}".format(counter, self.currentPlayer.playerName))
 
             first = self.highlightPlayerTurn(first)
@@ -233,16 +232,18 @@ class Game:
                 self.moveTokenFromBase(self.currentPlayer.tokensOnBase[0])
                 print("{} token #{} moved from base".format(self.currentPlayer.playerName, 4 - len(self.currentPlayer.tokensOnBase)))
 
-            elif 0 < len(self.currentPlayer.tokensOnPath) < 4:
+            elif 0 < len(self.currentPlayer.tokensOnPath) <= 4:
 
                 tokenChosen = False
                 while not tokenChosen:
 
                     currentToken = self.playerChoosingToken()
 
-                    if self.currentRoll == 6:
-                        if currentToken.currentTilePathPosition == 0:
-                            self.moveTokenFromBase(self.currentPlayer.tokensOnBase[0])
+                    if currentToken.currentTilePathPosition == 0:
+                        if self.currentRoll != 6:
+                            continue
+                        else:
+                            self.moveTokenFromBase(currentToken)
                             print("{} token #{} moved from base".format(self.currentPlayer.playerName, 4 - len(self.currentPlayer.tokensOnBase)))
                             print("Gets another turn")
                             counter -= 1
