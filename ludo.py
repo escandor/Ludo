@@ -241,6 +241,7 @@ class Game:
 
                     if currentToken.currentTilePathPosition == 0:
                         if self.currentRoll != 6:
+                            print("Cannot move token from base")
                             continue
                         else:
                             self.moveTokenFromBase(currentToken)
