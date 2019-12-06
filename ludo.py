@@ -217,7 +217,7 @@ class Game:
         first = True
         while not self.gameExit:
             
-            self.currentPlayer = self.players[counter%4]
+            self.currentPlayer = self.players[counter%2]
             print("Turn #{}: {}".format(counter, self.currentPlayer.playerName))
 
             first = self.highlightPlayerTurn(first)
@@ -241,7 +241,7 @@ class Game:
 
                     if currentToken.currentTilePathPosition == 0:
                         if self.currentRoll != 6:
-                            print("Cannot move token from base")
+                            print("Cannot move token from base.")
                             continue
                         else:
                             self.moveTokenFromBase(currentToken)
